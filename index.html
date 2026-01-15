@@ -12,9 +12,7 @@
             --accent-color: #00e676;
             --text-color: #ffffff;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
             background: radial-gradient(circle at center, #0a3d31, #031b15);
@@ -22,57 +20,17 @@
             display: flex; justify-content: center; align-items: center;
             min-height: 100vh; padding: 20px;
         }
-
-        .container { width: 100%; max-width: 700px; text-align: center; }
-
-        header { margin-bottom: 25px; }
-
-        .logo {
-            font-size: 1.8rem; background: var(--accent-color);
-            width: 50px; height: 50px; border-radius: 50%;
-            margin: 0 auto 10px; display: flex; align-items: center;
-            justify-content: center; color: #000; font-weight: bold;
-        }
-
-        .converter-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px; padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        .selection-row {
-            display: flex; gap: 15px; margin-bottom: 20px;
-        }
-
+        .container { width: 100%; max-width: 600px; text-align: center; }
+        .logo { font-size: 1.8rem; background: var(--accent-color); width: 50px; height: 50px; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold; }
+        .converter-card { background: var(--card-bg); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .selection-row { display: flex; gap: 15px; margin-bottom: 20px; }
         .input-box { flex: 1; text-align: left; }
         .input-box label { display: block; font-size: 0.8rem; margin-bottom: 5px; color: var(--accent-color); }
-
-        select {
-            width: 100%; padding: 10px; border-radius: 8px;
-            background: #12332a; color: white; border: 1px solid #1e4d41;
-        }
-
-        .drop-zone {
-            border: 2px dashed rgba(255,255,255,0.2);
-            padding: 40px 10px; border-radius: 12px;
-            margin-bottom: 20px; cursor: pointer; transition: 0.3s;
-        }
-
-        .drop-zone:hover { border-color: var(--accent-color); background: rgba(0,230,118,0.05); }
-
+        select { width: 100%; padding: 12px; border-radius: 8px; background: #12332a; color: white; border: 1px solid #1e4d41; outline: none; }
+        .drop-zone { border: 2px dashed rgba(255,255,255,0.2); padding: 40px 10px; border-radius: 12px; margin-bottom: 20px; cursor: pointer; }
         .status-text { margin-bottom: 15px; font-size: 0.9rem; color: #aaa; }
-
-        .action-btn {
-            background: linear-gradient(to right, #00c853, #b2ff59);
-            color: #000; border: none; padding: 15px 40px;
-            border-radius: 30px; font-weight: bold; cursor: pointer;
-            width: 100%; font-size: 1rem;
-        }
-
-        .action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
+        .action-btn { background: linear-gradient(to right, #00c853, #b2ff59); color: #000; border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1rem; }
+        .action-btn:disabled { opacity: 0.5; }
         footer { margin-top: 30px; opacity: 0.6; font-size: 0.8rem; }
     </style>
 </head>
@@ -81,15 +39,11 @@
     <div class="container">
         <header>
             <div class="logo">ধ</div>
-            <h1>ফাইল রূপান্তর</h1>
+            <h1 style="margin-bottom: 15px;">ফাইল রূপান্তর</h1>
         </header>
 
         <div class="converter-card">
             <div class="selection-row">
-                <div class="input-box">
-                    <label>বর্তমান ফরম্যাট</label>
-                    <select id="sourceFmt"><option>Auto</option></select>
-                </div>
                 <div class="input-box">
                     <label>পরিবর্তন করুন</label>
                     <select id="targetFmt">
@@ -106,8 +60,7 @@
             </div>
 
             <p id="msg" class="status-text">কোনো ফাইল নির্বাচিত নেই</p>
-
-            <button id="convertBtn" class="action-btn">রূপান্তর ও ডাউনলোড</button>
+            <button id="convertBtn" class="action-btn">সঠিকভাবে রূপান্তর করুন</button>
         </div>
 
         <footer>© 2026 Babai | সকল স্বত্ব সংরক্ষিত</footer>
@@ -127,7 +80,7 @@
             if(e.target.files[0]) {
                 selectedFile = e.target.files[0];
                 document.getElementById('fileInfo').innerText = selectedFile.name;
-                msg.innerText = "ফাইলটি সফলভাবে লোড হয়েছে।";
+                msg.innerText = "ফাইলটি প্রস্তুত আছে।";
                 msg.style.color = "#00e676";
             }
         };
@@ -135,68 +88,59 @@
         convertBtn.onclick = async () => {
             if (!selectedFile) {
                 msg.innerText = "দয়া করে একটি ফাইল সিলেক্ট করুন!";
-                msg.style.color = "#ff5252";
                 return;
             }
 
             const target = document.getElementById('targetFmt').value;
             convertBtn.disabled = true;
-            msg.innerText = "প্রসেসিং চলছে... দয়া করে অপেক্ষা করুন।";
+            msg.innerText = "প্রসেসিং চলছে... ফাইলটি রি-এনকোড করা হচ্ছে।";
 
-            try {
-                const fileName = selectedFile.name.split('.').slice(0, -1).join('.');
-                
-                // ইমেজের ডাটা সঠিকভাবে পড়ার জন্য FileReader ব্যবহার
-                const reader = new FileReader();
+            const reader = new FileReader();
+            
+            // ইমেজের ক্ষেত্রে প্রসেসিং
+            if (selectedFile.type.startsWith('image/')) {
                 reader.readAsDataURL(selectedFile);
-                
-                reader.onload = async (event) => {
-                    const dataUrl = event.target.result;
-                    
-                    if (target === 'pdf') {
-                        // PDF জেনারেশন লজিক
-                        const pdf = new jsPDF();
-                        const img = new Image();
-                        img.src = dataUrl;
-                        img.onload = () => {
-                            const imgProps = pdf.getImageProperties(img);
-                            const pdfWidth = pdf.internal.pageSize.getWidth();
-                            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-                            pdf.addImage(dataUrl, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-                            pdf.save(`${fileName}.pdf`);
-                            finish();
-                        };
-                    } else {
-                        // ইমেজ থেকে ইমেজে রূপান্তর (Canvas ব্যবহার করে)
-                        const img = new Image();
-                        img.src = dataUrl;
-                        img.onload = () => {
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = () => {
+                        if (target === 'pdf') {
+                            const pdf = new jsPDF();
+                            const width = pdf.internal.pageSize.getWidth();
+                            const height = (img.height * width) / img.width;
+                            pdf.addImage(img, 'JPEG', 0, 0, width, height);
+                            saveAs(pdf.output('blob'), selectedFile.name.split('.')[0] + ".pdf");
+                        } else {
                             const canvas = document.createElement('canvas');
                             canvas.width = img.width;
                             canvas.height = img.height;
-                            const ctx = canvas.getContext('2d');
-                            ctx.drawImage(img, 0, 0);
-                            
-                            const finalMime = target === 'jpg' ? 'image/jpeg' : 'image/png';
-                            const finalUrl = canvas.toDataURL(finalMime);
-                            
-                            const link = document.createElement('a');
-                            link.download = `${fileName}.${target}`;
-                            link.href = finalUrl;
-                            link.click();
-                            finish();
-                        };
-                    }
+                            canvas.getContext('2d').drawImage(img, 0, 0);
+                            canvas.toBlob((blob) => {
+                                saveAs(blob, selectedFile.name.split('.')[0] + "." + target);
+                            }, target === 'jpg' ? 'image/jpeg' : 'image/png');
+                        }
+                    };
                 };
-            } catch (err) {
-                msg.innerText = "দুঃখিত, রূপান্তরে সমস্যা হয়েছে।";
+            } else {
+                // অন্য ফাইলের ক্ষেত্রে (টেক্সট/ডক)
+                msg.innerText = "শুধুমাত্র ইমেজ থেকে PDF বা ইমেজ রূপান্তর বর্তমানে সাপোর্টেড।";
                 convertBtn.disabled = false;
             }
         };
 
-        function finish() {
-            msg.innerText = "অভিনন্দন! রূপান্তর সম্পন্ন হয়েছে।";
-            convertBtn.disabled = false;
+        function saveAs(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                msg.innerText = "সফলভাবে ডাউনলোড হয়েছে!";
+                convertBtn.disabled = false;
+            }, 100);
         }
     </script>
 </body>
