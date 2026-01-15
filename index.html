@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ফাইল রূপান্তর - Babai</title>
+    <style>
+        /* CSS অংশ - স্টাইলিং এবং রেসপনসিভ ডিজাইন */
+        :root {
+            --primary-bg: #031b15;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --accent-color: #00e676;
+            --text-color: #ffffff;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', 'Segoe UI', Tahoma, sans-serif;
+            background: radial-gradient(circle at top right, #0a3d31, #031b15);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        /* হেডার স্টাইল */
+        header {
+            margin-bottom: 30px;
+        }
+
+        .logo-circle {
+            font-size: 2rem;
+            background: var(--accent-color);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(0, 230, 118, 0.4);
+        }
+
+        header h1 {
+            font-size: calc(1.8rem + 1vw);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* কনভার্টার কার্ড */
+        .converter-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 40px 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ইনপুট গ্রুপ - রেসপনসিভ গ্রিড */
+        .selection-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: var(--accent-color);
+        }
+
+        select {
+            width: 100%;
+            background: rgba(26, 77, 65, 0.8);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px;
+            border-radius: 10px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* ড্রপ জোন */
+        .drop-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 50px 20px;
+            margin-bottom: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .drop-zone:hover, .drop-zone.drag-over {
+            border-color: var(--accent-color);
+            background: rgba(0, 230, 118, 0.05);
+        }
+
+        .drop-zone p {
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        /* স্ট্যাটাস এরিয়া */
+        .status-display {
+            margin-bottom: 20px;
+            min-height: 24px;
+            font-size: 0.9rem;
+        }
+
+        .status-success { color: #00e676; }
+        .status-error { color: #ff5252; }
+
+        /* বাটন স্টাইল */
+        .convert-btn {
+            background: linear-gradient(135deg, #00c853, #b2ff59);
+            color: #031b15;
+            border: none;
+            padding: 16px 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 300px;
+            transition: var(--transition);
+            box-shadow: 0 10px 20px rgba(0, 200, 83, 0.3);
+        }
+
+        .convert-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(0, 200, 83, 0.4);
+        }
+
+        .convert-btn:disabled {
+            background: #444;
+            color: #888;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ফুটার */
+        footer {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        /* মোবাইল স্ক্রিনের জন্য বিশেষ পরিবর্তন */
+        @media (max-width: 600px) {
+            .selection-grid {
+                grid-template-columns: 1fr;
+            }
+            .converter-card {
+                padding: 25px 15px;
+            }
+            header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo-circle">ধ</div>
+            <h1>ফাইল রূপান্তর</h1>
+            <p class="subtitle">সহজ, নিরাপদ এবং দ্রুত ফাইল কনভার্টার</p>
+        </header>
+
+        <div class="converter-card">
+            <div class="selection-grid">
+                <div class="input-group">
+                    <label>বর্তমান ফরম্যাট</label>
+                    <select id="fromFormat">
+                        <option value="auto">Auto (স্বয়ংক্রিয়)</option>
+                        <option value="pdf">PDF</option>
+                        <option value="jpg">Image (JPG)</option>
+                        <option value="png">Image (PNG)</option>
+                        <option value="txt">Text (TXT)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>কাঙ্ক্ষিত ফরম্যাট</label>
+                    <select id="toFormat">
+                        <option value="pdf">PDF</option>
+                        <option value="png">PNG</option>
+                        <option value="jpg">JPG</option>
+                        <option value="txt">TXT</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="drop-zone" id="dropZone">
+                <p id="fileNameDisplay">এখানে ফাইল ড্র্যাগ করুন অথবা ক্লিক করে আপলোড করুন</p>
+                <input type="file" id="fileInput" hidden>
+            </div>
+
+            <div id="statusMsg" class="status-display">অপেক্ষা করা হচ্ছে...</div>
+
+            <button id="mainActionBtn" class="convert-btn">রূপান্তর করুন</button>
+        </div>
+
+        <footer>
+            <p>© 2026 Babai | সকল স্বত্ব সংরক্ষিত</p>
+        </footer>
+    </div>
+
+    <script>
+        // JavaScript অংশ - লজিক এবং ইন্টারঅ্যাকশন
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const statusMsg = document.getElementById('statusMsg');
+        const mainBtn = document.getElementById('mainActionBtn');
+        
+        let targetFile = null;
+
+        // ফাইল ড্র্যাগ হ্যান্ডলিং
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            handleFile(e.dataTransfer.files[0]);
+        });
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            handleFile(e.target.files[0]);
+        });
+
+        function handleFile(file) {
+            if (file) {
+                targetFile = file;
+                fileNameDisplay.innerHTML = `<strong>নির্বাচিত:</strong> ${file.name} (${(file.size/1024).toFixed(2)} KB)`;
+                statusMsg.innerText = "ফাইল প্রস্তুত। 'রূপান্তর' বাটনে ক্লিক করুন।";
+                statusMsg.className = "status-display status-success";
+            }
+        }
+
+        // কনভারশন লজিক (সিস্টেম স্টোরেজ ব্যবহারের ডেমো)
+        mainBtn.addEventListener('click', () => {
+            if (!targetFile) {
+                statusMsg.innerText = "দয়া করে প্রথমে একটি ফাইল নির্বাচন করুন!";
+                statusMsg.className = "status-display status-error";
+                return;
+            }
+
+            const targetExt = document.getElementById('toFormat').value;
+            mainBtn.disabled = true;
+            statusMsg.innerText = "প্রসেসিং চলছে...";
+
+            // প্রসেসিং এর ভান করা (সিমুলেশন)
+            setTimeout(() => {
+                const originalName = targetFile.name.split('.').slice(0, -1).join('.');
+                const newFileName = `${originalName}.${targetExt}`;
+                
+                // ব্রাউজারের ব্লব (Blob) মেমরি ব্যবহার করে ডাউনলোড তৈরি
+                const blob = new Blob([targetFile], { type: "application/octet-stream" });
+                const downloadUrl = URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = downloadUrl;
+                link.download = newFileName;
+                document.body.appendChild(link);
+                link.click();
+                
+                // ক্লিনআপ
+                document.body.removeChild(link);
+                URL.revokeObjectURL(downloadUrl);
+                
+                statusMsg.innerText = "অভিনন্দন! রূপান্তর সম্পন্ন এবং ডাউনলোড শুরু হয়েছে।";
+                mainBtn.disabled = false;
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
